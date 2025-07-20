@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"sync"
 	"time"
+
+	"github.com/Akashkarmokar/QeManager/internal/event"
 )
 
 const (
@@ -12,47 +14,18 @@ const (
 	max_time_limit = 5 // Maximum Timelimit to run function
 )
 
-type Event struct {
-	message string
-}
-
-func EvenHandler(ctx context.Context, wg *sync.WaitGroup, eventData []Event) {
-	defer wg.Done()
-
-	// If there's no data, return immediately
-	if len(eventData) == 0 {
-		fmt.Println("No event data to process.")
-		return
-	}
-
-	for len(eventData) > 0 {
-		select {
-		case <-ctx.Done():
-			fmt.Println("Context Done is called during event processing!")
-			return
-		default:
-			fmt.Println("Data from event:", eventData[0])
-			eventData = eventData[1:]
-			// Optional: simulate processing delay
-			// time.Sleep(1 * time.Second)
-		}
-	}
-
-	fmt.Println("All events processed successfully.")
-}
-
 func main() {
-	var messages []Event
+	var messages []event.Event
 	for i := range batch_size {
-		messages = append(messages, Event{
-			message: "Message " + fmt.Sprintf("%d", i),
+		messages = append(messages, event.Event{
+			Message: "Message " + fmt.Sprintf("%d", i),
 		})
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*(max_time_limit-2))
 	var wg sync.WaitGroup
 
 	wg.Add(1)
-	go EvenHandler(ctx, &wg, messages)
+	go event.EventHandler(ctx, &wg, messages)
 
 	time.Sleep(time.Second * (max_time_limit))
 	cancel()
