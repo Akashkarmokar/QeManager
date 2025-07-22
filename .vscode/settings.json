@@ -1,0 +1,61 @@
+{
+    "git.autofetch": true,
+    "window.menuBarVisibility": "compact",
+    "window.zoomLevel": -1,
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "workbench.iconTheme": "catppuccin-frappe",
+    "remote.autoForwardPortsSource": "hybrid",
+    "scm.experimental.showHistoryGraph": true,
+    "editor.fontSize": 17,
+    // "editor.fontFamily": "Consolas, 'Courier New'",
+    "editor.fontLigatures": true,
+    "editor.lineHeight": 22,
+    "editor.fontFamily": "JetBrains Mono",
+    "gopls": {
+        "ui.semanticTokens": true
+    },
+    "go.toolsManagement.autoUpdate": true,
+    "files.exclude": {
+        // "": true,
+        "**/.DS_Store": true,
+        "**/.git": true,
+        "**/.hg": true,
+        "**/.svn": true,
+        "**/CVS": true,
+        "**/dist": true,
+        "**/node_modules": true,
+        "**/Thumbs.db": true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/dist": true,
+        "**/build": true
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/.hg/store/**": true,
+        "**/node_modules/**": true,
+        "**/temp/**": true,
+        "**/dist/**": true
+
+    },
+    "typescript.tsserver.maxTsServerMemory": 4096,
+    "typescript.tsserver.log": "off",
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": false
+    },
+    "workbench.colorTheme": "Catppuccin Frappé",
+    "files.autoSave": "afterDelay",
+    "debug.inlineValues": "off",
+    "leetcode.workspaceFolder": "C:\\Users\\yotech18\\.leetcode",
+    "leetcode.defaultLanguage": "python3",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "leetcode.hint.commandShortcut": false,
+    "diffEditor.hideUnchangedRegions.enabled": true,
+    "workbench.sideBar.location": "right",
+    // "editor.semanticHighlighting.enabled": true
+    
+}

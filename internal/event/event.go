@@ -23,37 +23,57 @@ func EventHandler(ctx context.Context, parentWg *sync.WaitGroup, eventData []Eve
 		return
 	}
 
+	// Create buffered channels to prevent blocking
+	newFilter := NewFilter(Batch_size)
+
 	var wg sync.WaitGroup
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
 
-	newFilter := NewFilter()
+	// Immediate context check
+	select {
+	case <-ctx.Done():
+		fmt.Println("Order Context Cancelled before processing")
+		return
+	default:
+	}
 
+	// Start filter worker
 	wg.Add(1)
-	go newFilter.StartFiltering(ctx, &wg)
+	go func() {
+		defer wg.Done()
+		newFilter.StartFiltering(ctx)
+	}()
 
+	// Process events
 	wg.Add(1)
 	go func() {
 		defer func() {
 			close(newFilter.rowMessages)
 			wg.Done()
 		}()
+
 		for _, ev := range eventData {
 			select {
 			case <-ctx.Done():
-				fmt.Println("Context Done is called during event processing!")
+				fmt.Println("--->Context Done is called during event processing!")
 				return
 			default:
-				fmt.Println("Data from event:", ev)
-				newFilter.CheckValidMessage(ev)
+				fmt.Println("Order Data from event:", ev)
+				// Make CheckValidMessage context-aware
+				if err := newFilter.CheckValidMessage(ctx, ev); err != nil {
+					fmt.Println("Validation error:", err)
+					return
+				}
 			}
 		}
 	}()
 
-	workerCount := Batch_size
-	for i := 0; i < workerCount+3; i++ {
+	// Start upload workers
+	for i := 0; i < Batch_size; i++ {
 		wg.Add(1)
-		go UploadFile(i, &wg, newFilter.filteredMessages)
+		go func(idx int) {
+			defer wg.Done()
+			UploadFile(ctx, idx, newFilter.filteredMessages)
+		}(i)
 	}
 
 	wg.Wait()
