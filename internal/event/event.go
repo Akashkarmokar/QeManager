@@ -8,7 +8,7 @@ import (
 
 const (
 	Batch_size     = 5 // Maximum No Of Message will be available at a time
-	Max_time_limit = 5 // Maximum Timelimit to run function
+	Max_time_limit = 5 // Maximum Timelimit to run function - In minutes
 )
 
 type Event struct {
@@ -43,6 +43,7 @@ func EventHandler(ctx context.Context, parentWg *sync.WaitGroup, eventData []Eve
 		newFilter.StartFiltering(ctx)
 	}()
 
+	total_send := 0
 	// Process events
 	wg.Add(1)
 	go func() {
@@ -62,13 +63,16 @@ func EventHandler(ctx context.Context, parentWg *sync.WaitGroup, eventData []Eve
 				if err := newFilter.CheckValidMessage(ctx, ev); err != nil {
 					fmt.Println("Validation error:", err)
 					return
+				} else {
+					total_send++
+					fmt.Println("Total messages sent for validation:", total_send)
 				}
 			}
 		}
 	}()
-
+	
 	// Start upload workers
-	for i := 0; i < Batch_size; i++ {
+	for i := 0; i < 3; i++ {
 		wg.Add(1)
 		go func(idx int) {
 			defer wg.Done()
