@@ -55,7 +55,7 @@
     "diffEditor.ignoreTrimWhitespace": false,
     "leetcode.hint.commandShortcut": false,
     "diffEditor.hideUnchangedRegions.enabled": true,
-    "workbench.sideBar.location": "right",
+    "workbench.sideBar.location": "left",
     // "editor.semanticHighlighting.enabled": true
     
 }
