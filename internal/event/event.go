@@ -48,7 +48,7 @@ func EventHandler(ctx context.Context, parentWg *sync.WaitGroup, eventData []Eve
 	wg.Add(1)
 	go func() {
 		defer func() {
-			close(newFilter.rowMessages)
+			// close(newFilter.rowMessages)
 			wg.Done()
 		}()
 
@@ -69,8 +69,9 @@ func EventHandler(ctx context.Context, parentWg *sync.WaitGroup, eventData []Eve
 				}
 			}
 		}
+		close(newFilter.rowMessages)
 	}()
-	
+
 	// Start upload workers
 	for i := 0; i < 3; i++ {
 		wg.Add(1)
