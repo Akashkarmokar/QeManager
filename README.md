@@ -31,5 +31,5 @@ Server Entry point inside main.go
 
 ## 🚀 About Me
 I'm a full stack developer...
-[Find Me](https://github.com/Akashkarmokar)
+[Find Me](https://akashkarmokar.github.io/home)
 
