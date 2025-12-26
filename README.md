@@ -1,5 +1,5 @@
 
-# Lambda Equivalent Media Uploader to Social Platform
+# Media uploader to Social Platform (Such as Youtube, Facebook ans so on) for AWS Lambda Environment
 
 This repository embodies the component of Microservice which play role to upload the media file's from SQS to defined Social Media.
 
